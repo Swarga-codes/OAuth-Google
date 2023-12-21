@@ -2,6 +2,15 @@ const passport=require('passport')
 const GoogleStrategy=require('passport-google-oauth20')
 const USER=require('../models/userModel')
 require('dotenv').config()
+
+//serialise and deserialize
+passport.serializeUser((user,done)=>{
+    done(null,user.id)
+})
+passport.deserializeUser((id,done)=>{
+    USER.findOne({_id:id})
+    .then(userData=>done(null,userData))
+})
 //setup passport
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
@@ -14,12 +23,16 @@ passport.use(new GoogleStrategy({
     .then((savedUser)=>{
 if(savedUser){
 console.log('user is: '+savedUser)
+done(null,savedUser)
 }
 else{
     new USER({
         userName:profile.displayName,
         googleId:profile.id
-    }).save().then(payload=>console.log('User created successfully: '+payload))
+    }).save().then(payload=>{
+        console.log('User created successfully: '+payload)
+    done(null,payload)
+    })
 }
     })
     .catch(err=>console.log(err))
