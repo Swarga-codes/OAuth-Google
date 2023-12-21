@@ -1,9 +1,15 @@
 const express=require('express')
-const passportConfig=require('./config/passport-config')
 const app=express()
+const passportConfig=require('./config/passport-config')
 const dotenv=require('dotenv').config()
-//set up a view engine
 const auth=require('./routes/auth')
+const mongoose=require('mongoose')
+//Connect to mongodb
+mongoose.connect(process.env.MONGO_DB_URI)
+mongoose.connection.on('connected',()=>{
+    console.log('Connected to mongodb')
+})
+//set up a view engine
 app.set('view-engine','ejs')
 app.use('/auth',auth)
 app.get('/',(req,res)=>{

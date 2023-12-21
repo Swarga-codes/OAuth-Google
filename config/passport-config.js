@@ -1,5 +1,6 @@
 const passport=require('passport')
 const GoogleStrategy=require('passport-google-oauth20')
+const USER=require('../models/userModel')
 require('dotenv').config()
 //setup passport
 passport.use(new GoogleStrategy({
@@ -9,6 +10,17 @@ passport.use(new GoogleStrategy({
 },(accessToken,refreshToken,profile,done)=>{
 
     //callback
-    console.log('callback fired....')
-    console.log(profile)
+    USER.findOne({googleId:profile.id})
+    .then((savedUser)=>{
+if(savedUser){
+console.log('user is: '+savedUser)
+}
+else{
+    new USER({
+        userName:profile.displayName,
+        googleId:profile.id
+    }).save().then(payload=>console.log('User created successfully: '+payload))
+}
+    })
+    .catch(err=>console.log(err))
 }))
