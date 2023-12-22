@@ -8,7 +8,7 @@ passport.serializeUser((user,done)=>{
     done(null,user.id)
 })
 passport.deserializeUser((id,done)=>{
-    USER.findOne({_id:id})
+    USER.findById(id)
     .then(userData=>done(null,userData))
 })
 //setup passport
@@ -35,5 +35,5 @@ else{
     })
 }
     })
-    .catch(err=>console.log(err))
+  
 }))
