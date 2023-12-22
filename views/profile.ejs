@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
+    <title>Profile</title>
 </head>
 <body>
     <a href="/">Home</a>
@@ -12,8 +12,10 @@
         <%} else {%>
         <a href="/auth/logout">Logout</a>
     <% } %>
-    <h1>Login Page</h1>
-    <h2>Login Using...</h2>
-    <button id="btn"><a href="/auth/google">Login With Google</a></button>
+    <h1>Profile Page</h1>
+    <h2>You are logged in, Your username is - <%=user.userName%></h2>
+    <br>
+    <img src=<%=user.thumbnail%> alt="no_preview">
+    <p>This is your profile picture.</p>
 </body>
 </html>

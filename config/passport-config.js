@@ -17,7 +17,6 @@ passport.use(new GoogleStrategy({
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: '/auth/google/redirect'
 },(accessToken,refreshToken,profile,done)=>{
-
     //callback
     USER.findOne({googleId:profile.id})
     .then((savedUser)=>{
@@ -28,7 +27,8 @@ done(null,savedUser)
 else{
     new USER({
         userName:profile.displayName,
-        googleId:profile.id
+        googleId:profile.id,
+        thumbnail:profile.photos[0].value
     }).save().then(payload=>{
         console.log('User created successfully: '+payload)
     done(null,payload)

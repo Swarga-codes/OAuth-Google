@@ -7,8 +7,12 @@
 </head>
 <body>
     <a href="/">Home</a>
+    <% if(!user) { %>
     <a href="/auth/login">Login</a>
+    <%} else {%>
     <a href="/auth/logout">Logout</a>
+<% } %>
+    <a href="/profile">Profile</a>
     <h1>Welcome to Home Page!</h1>
     <p>Lets learn OAuth!</p>
    

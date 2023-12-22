@@ -6,7 +6,7 @@ const auth=require('./routes/auth')
 const mongoose=require('mongoose')
 const cookieSession=require('cookie-session')
 const passport=require('passport')
-
+const profileRouter=require('./routes/profile')
 
 //set up a view engine
 app.set('view-engine','ejs')
@@ -22,8 +22,10 @@ mongoose.connection.on('connected',()=>{
     console.log('Connected to mongodb')
 })
 app.use('/auth',auth)
+app.use('/profile',profileRouter)
+
 app.get('/',(req,res)=>{
-    res.render('home.ejs')
+    res.render('home.ejs',{user:req.user})
 })
 app.listen(3000,()=>{
     console.log('Server listening on port 3000')
